@@ -1,3 +1,31 @@
 @startuml
-
+class Service {
++ Service(name)
++ open(host, port, callback)
++ createSession(name, callback)
++ close()
+}
+class Session {
+- Session(socket)
+- setSocket(socket)
++ setReceiveCallback(callback)
++ operator >>(Session&, Message*)
++ operator <<(Session&, Message*)
++ asyncSend(Message*)
++ close()
+}
+class Message {
++ type()
+}
+class MessageFactory << (S, yellow) >> {
++ create(MessageType)
+}
+class UupsServiceLocator << (S, yellow) >>
+class Uups1Connector {
++ Uups1Connector()
++ open(host, port, callback)
++ send(host, port, char*, int)
+}
+enum MessageType {
+}
 @enduml
