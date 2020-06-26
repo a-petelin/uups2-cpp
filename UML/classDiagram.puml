@@ -29,3 +29,51 @@ class Uups1Connector {
 enum MessageType {
 }
 @enduml
+@startuml
+class Service {
+# getInfo()
++ Service(name, callback)
++ open(host, port)
++ createSession(name)
++ close()
+}
+class Session {
+- Session(socket)
+- setSocket(socket)
+# getInfo()
++ setReceiveCallback(callback)
++ operator >>(Session&, Message*)
++ operator <<(Session&, Message*)
++ asyncSend(Message*)
++ close()
++ const ServiceInfo& getInitiator()
++ const ServiceInfo& getAcceptor()
+}
+class Message {
++ type()
+}
+class MessageFactory << (S, yellow) >> {
++ create(MessageType)
+}
+class UupsServiceLocatorClient << (S, yellow) >> {
++ registerService(ServiceInfo&)
++ registerSession(SessionInfo&)
++ unregisterSession(uuid)
++ unregisterService(name)
++ Info* findService(name)
+}
+class Uups1Connector {
++ Uups1Connector()
++ open(host, port, callback)
++ {static} send(host, port, char*, int)
+}
+enum MessageType {
+}
+abstract class Info {
++ {abstract} subject()
+}
+class ServiceInfo
+class SessionInfo
+Info <|-- ServiceInfo
+Info <|-- SessionInfo
+@enduml
